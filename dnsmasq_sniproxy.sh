@@ -245,7 +245,7 @@ install_sniproxy(){
     if check_sys packageManager yum; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy-0.6.0.el7.x86_64.rpm https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy-0.6.0.el7.x86_64.rpm
+                download /tmp/sniproxy-0.6.0.el7.x86_64.rpm https://github.com/Ivaneus/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy-0.6.0.el7.x86_64.rpm
                 error_detect_depends "yum -y install /tmp/sniproxy-0.6.0.el7.x86_64.rpm"
             else
                 echo -e "${red}暂不支持${bit}内核，请使用编译模式安装！${plain}" && exit 1
@@ -264,10 +264,10 @@ install_sniproxy(){
     elif check_sys packageManager apt; then
         if [[ ${fastmode} = "1" ]]; then
             if [[ ${bit} = "x86_64" ]]; then
-                download /tmp/sniproxy_0.6.0_amd64.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_amd64.deb
+                download /tmp/sniproxy_0.6.0_amd64.deb https://github.com/Ivaneus/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_amd64.deb
                 error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.0_amd64.deb"
             elif [[ ${bit} = "i386" ]]; then
-                download /tmp/sniproxy_0.6.0_i386.deb https://github.com/myxuchangbin/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_i386.deb
+                download /tmp/sniproxy_0.6.0_i386.deb https://github.com/Ivaneus/dnsmasq_sniproxy_install/raw/master/sniproxy/sniproxy_0.6.0_i386.deb
                 error_detect_depends "dpkg -i --no-debsig /tmp/sniproxy_0.6.0_i386.deb"
             else
                 echo -e "${red}暂不支持${bit}内核，请使用编译模式安装！${plain}" && exit 1
@@ -277,10 +277,10 @@ install_sniproxy(){
             error_detect_depends "dpkg -i --no-debsig ../sniproxy_*.deb"
         fi  
         download /etc/init.d/sniproxy https://raw.githubusercontent.com/dlundquist/sniproxy/master/debian/init.d && chmod +x /etc/init.d/sniproxy
-        download /etc/default/sniproxy https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/sniproxy.default
+        download /etc/default/sniproxy https://raw.githubusercontent.com/Ivaneus/dnsmasq_sniproxy_install/master/sniproxy.default
     fi
-    download /etc/sniproxy.conf https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/sniproxy.conf
-    download /tmp/sniproxy-domains.txt https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/proxy-domains.txt
+    download /etc/sniproxy.conf https://raw.githubusercontent.com/Ivaneus/dnsmasq_sniproxy_install/master/sniproxy.conf
+    download /tmp/sniproxy-domains.txt https://raw.githubusercontent.com/Ivaneus/dnsmasq_sniproxy_install/master/proxy-domains.txt
     sed -i -e 's/\./\\\./g' -e 's/^/    \.\*/' -e 's/$/\$ \*/' /tmp/sniproxy-domains.txt || (echo -e "[${red}Error:${plain}] Failed to configuration sniproxy." && exit 1)
     sed -i '/table {/r /tmp/sniproxy-domains.txt' /etc/sniproxy.conf || (echo -e "[${red}Error:${plain}] Failed to configuration sniproxy." && exit 1)
     if [ ! -e /var/log/sniproxy ]; then
@@ -356,8 +356,8 @@ Install() {
         elif check_sys packageManager apt; then
             error_detect_depends "apt-get -y install dnsmasq"
         fi
-        download /etc/dnsmasq.d/custom_netflix.conf https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/dnsmasq.conf
-        download /tmp/proxy-domains.txt https://raw.githubusercontent.com/myxuchangbin/dnsmasq_sniproxy_install/master/proxy-domains.txt
+        download /etc/dnsmasq.d/custom_netflix.conf https://raw.githubusercontent.com/Ivaneus/dnsmasq_sniproxy_install/master/dnsmasq.conf
+        download /tmp/proxy-domains.txt https://raw.githubusercontent.com/Ivaneus/dnsmasq_sniproxy_install/master/proxy-domains.txt
         PublicIP=$(get_ip)
         for domain in $(cat /tmp/proxy-domains.txt); do
             printf "address=/${domain}/${PublicIP}\n"\
